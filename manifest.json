@@ -1,0 +1,59 @@
+{
+  "manifest_version": 2,
+  "name": "Leak Inspector",
+  "description": "An add-on that warns and protects against personal data exfiltration",
+  "version": "0.0.0.1",
+  "icons": {
+    "48": "icons/logo_48.png"
+  },
+  "browser_action": {
+    "default_icon": "icons/logo.png",
+    "default_popup": "extension_ui/html/popup.html"
+  },
+  "permissions": [
+    "webRequest",
+    "webRequestBlocking",
+    "webNavigation",
+    "activeTab",
+    "tabs",
+    "storage",
+    "wss://*/",
+    "*://*/*"
+  ],
+  "content_scripts": [
+    {
+      "js": [
+        "content_scripts/content_script.js"
+      ],
+      "matches": [
+        "*://*/*"
+      ],
+      "all_frames": true,
+      "run_at": "document_idle"
+    }
+  ],
+  "background": {
+    "persistent": true,
+    "scripts": [
+      "common_utils/tracker.js",
+      "data/ddg_tds.js",
+      "background_scripts/background.js",
+      "data/entities.js",
+      "data/public_suffix.js",
+      "common_utils/common_utils.js",
+      "common_utils/psl.js",
+      "background_scripts/background_utils.js",
+      "background_scripts/hash_encode.js"
+    ]
+  },
+  "web_accessible_resources": [
+    "page_scripts/*",
+    "content_scripts/*",
+    "data/*",
+    "icons/*",
+    "extension_ui/*",
+    "common_utils/common_utils.js",
+    "common_utils/psl.js",
+    "common_utils/tracker.js"
+  ]
+}

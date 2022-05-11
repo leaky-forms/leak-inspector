@@ -1,0 +1,61 @@
+<div class="site-info site-info--main">
+    <ul class="default-list">
+        <li id="site-info" class="border--bottom site-info__rating-li main-rating js-hero-open" title="Enable/Disable add-on. To finalize your selection, please reload the page.">
+            <div class="rating-hero-container js-rating-hero">
+                <div class="hero text--center ">
+                    <div class="hero__icon hero__icon--d--active" id="switch_button"></div>
+                    <h1 class="hero__title">google.com</h1>
+                    <h2 hidden aria-label="Leak Details" class="hero__subtitle " id="sniff_num"></h2>
+                    <h2 hidden aria-label="Leak Details" class="hero__subtitle " id="leaky_req_num"></h2>
+                </div>
+            </div>
+        </li>
+        <div id="control-buttons">
+            <li  id="request-leaks-info" class="js-site-tracker-networks js-site-show-page-trackers site-info__li--trackers padded border--bottom" title="List requests containing personal information">
+                <a  role="button" class="link-secondary bold"> <a 
+                        class="site-info__trackers link-secondary bold"> <span id='leaky_req_text' class="is-active text-line-after-icon"> Leaky Requests</span>
+                        <span class="icon icon__arrow pull-right"></span></a></a>
+            </li>
+            <li id="sniffs-info"  class="js-site-tracker-networks js-site-show-page-trackers site-info__li--trackers padded border--bottom" title="List 3rd-parties reading personal information">
+                <a  role="button" class="link-secondary bold"> <a 
+                        class="site-info__trackers link-secondary bold"> <span class="is-active text-line-after-icon" id='sniffs_text'> Sniff Attempts</span>
+                        <span class="icon icon__arrow pull-right"></span></a></a>
+            </li>
+            <li class="site-info__li--toggle js-site-protection-row padded is-active" title="Disable blocking leaky requests. You continue to see the list of requests even if you disable this feature.">
+                <p class="site-info__protection js-site-protection bold">Request Blocker</p>
+                <div class="site-info__toggle-container"><button id='request-blocker-button' data-key="" type="button" aria-pressed="true"
+                        class="toggle-button toggle-button--is-active-true js-site-toggle pull-right">
+                        <div class="toggle-button__bg"></div>
+                        <div class="toggle-button__knob"></div>
+                    </button></div>
+            </li>
+            <li class="site-info__li--toggle js-site-protection-row padded is-active" title="Control sniffs and leak attempts not only to tracker domains but also 3rd-parties ">
+                <p class="site-info__protection js-site-protection bold">Enable for all 3rd parties</p>
+                <div class="site-info__toggle-container"><button id='sniffer-blocker-button' data-key="" type="button" aria-pressed="true"
+                        class="toggle-button toggle-button--is-active-true js-site-toggle pull-right">
+                        <div class="toggle-button__bg"></div>
+                        <div class="toggle-button__knob"></div>
+                    </button></div>
+            </li>
+        </div>
+        <!-- <li class="js-site-manage-allowlist-li site-info__li--manage-allowlist padded ">
+            <div><a 
+                    class="js-site-manage-allowlist site-info__manage-allowlist link-secondary bold">Unprotected
+                    Sites</a>
+                <div class="separator"></div><a 
+                    class="js-site-report-broken site-info__report-broken link-secondary bold">Report broken
+                    site</a>
+            </div>
+        </li> -->
+        
+        <!-- <li class="js-site-confirm-breakage-li site-info__li--confirm-breakage border--bottom padded is-hidden">
+            <div class="js-site-confirm-breakage-message site-info__confirm-thanks is-transparent"><span
+                    class="site-info__message">Thanks for the feedback!</span></div>
+            <div class="js-site-confirm-breakage site-info--confirm-breakage"><span
+                    class="site-info--is-site-broken bold">Is this website broken?</span>
+                <btn class="js-site-confirm-breakage-yes site-info__confirm-breakage-yes btn-pill">Yes</btn>
+                <btn class="js-site-confirm-breakage-no site-info__confirm-breakage-no btn-pill">No</btn>
+            </div>
+        </li> -->
+    </ul>
+</div>
