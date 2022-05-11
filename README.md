@@ -11,4 +11,8 @@ Our attempts to publish the add-on on the Chrome Web Store failed, because new u
 
 ⚠️ The add-on is a proof-of-concept. It has not been extensively tested. Please use at your own discretion.
 
-[![Watch the video](https://homes.esat.kuleuven.be/~asenol/leaky-forms/ss/ext_1_moz.png)](https://homes.esat.kuleuven.be/~asenol/leaky-forms/videos/ext_mozilla.webm)
+
+
+
+https://user-images.githubusercontent.com/48864422/167825572-7465e8a5-35f6-4fea-a2fa-aee247d78991.mp4
+
