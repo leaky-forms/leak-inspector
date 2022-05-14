@@ -92,7 +92,7 @@ function modifyInputElementSetterGetter(inputElement) {
     configurable: true,
     // set: realHTMLInputElement.set,
     get: function () {
-      let elValue = realHTMLInputElement.get.call(this);
+      const elValue = realHTMLInputElement.get.call(this);
       const xpath = getXPath(inputElement);
       const fieldName = inputElement.getAttribute("leaky-field-name");
       const stack = new Error().stack.split("\n");
@@ -102,12 +102,10 @@ function modifyInputElementSetterGetter(inputElement) {
       }
       const timeStamp = Date.now();
       // mask the password field
-      if (fieldName === 'password') {
-        elValue = elValue.replace(/./g, '*');
-      }
+      const sniffValue = (fieldName === 'password') ? elValue.replace(/./g, '*') : elValue;
       // send the sniff details to the background script
       sendMessageToContentScript(
-        { elValue, xpath, fieldName, stack, timeStamp },
+        { sniffValue, xpath, fieldName, stack, timeStamp },
         "inputSniffed"
       );
 
