@@ -265,7 +265,7 @@ chrome.webRequest.onBeforeRequest.addListener(
         return { cancel: reqCancel.block};
       }
     });
-    let reqTabId = request.tabId;
+    let reqTabId = activeTabId;
     let inputElsOnTab = input_elements[reqTabId];
     if (inputElsOnTab) {
       const tabURL = inputElsOnTab.url;
@@ -313,12 +313,7 @@ chrome.webRequest.onBeforeRequest.addListener(
           timeStamp: reqCancel.timeStamp,
         });
       });
-      if (activeTabId === reqTabId) {
-        setBadge(reqTabId);
-        // chrome.browserAction.setIcon({
-        //   path: `chrome-extension://${chrome.runtime.id}/extension_ui/img/privacy--bad.svg`,
-        // });
-      }
+      setBadge(reqTabId);
       let reqStorageObj = {};
       reqStorageObj["leaky_requests_" + reqTabId] = leaky_requests[reqTabId];
       chrome.storage.local.set(reqStorageObj);
