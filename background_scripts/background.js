@@ -95,15 +95,42 @@ function checkSniff(elValue, xpath, fieldName, stack, tabURL) {
 }
 
 function setBadge(currTabId) {
-  let leakyReqNum = 0;
-  let leakyReqs = leaky_requests[currTabId];
-  if(!leakyReqs){
-    return;
-  }
-  for (const domain of Object.keys(leakyReqs)) {
-    leakyReqNum += leakyReqs[domain].details.length;
-  }
-  chrome.browserAction.setBadgeText({text: leakyReqNum.toString(), tabId:currTabId});
+  chrome.storage.local.get("extension_switch", function (storage) {
+    let badgeText = "";
+    let badgeBackgroundColor = [0,255,0,255]; // green
+
+    // if extension is switched on
+    if (storage.extension_switch) {
+ 
+      let leakyReqNum = 0;
+      let leakyReqs = leaky_requests[currTabId];
+      if(leakyReqs){
+        for (const domain of Object.keys(leakyReqs)) {
+          leakyReqNum += leakyReqs[domain].details.length;
+        }
+      }
+
+      badgeText = leakyReqNum.toString();
+
+      if (leakyReqNum > 0) {
+        badgeBackgroundColor = [255,0,0,255]; // red
+      } else {
+        let sniffNum = 0;
+        const tabSniffs = sniffs[currTabId];
+        if (tabSniffs) {
+          for (const domain of Object.keys(tabSniffs)) {
+            sniffNum += tabSniffs[domain].details.length;
+          }
+        }
+        if (sniffNum > 0) {
+          badgeBackgroundColor = [255,255,0,255]; // yellow
+        }
+      }
+    }
+
+    chrome.browserAction.setBadgeText({text:badgeText, tabId:currTabId});
+    chrome.browserAction.setBadgeBackgroundColor({color:badgeBackgroundColor, tabId:currTabId});
+  });
 }
 
 chrome.tabs.onActivated.addListener(function (tab) {
@@ -214,9 +241,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       if (sniffs[msgTabId] === undefined) {
         sniffs[msgTabId] = [];
       }
-      // if (activeTabId === tabId) {
-      //   setBadge(0, tabId);
-      // }
       for (const sniff of sniffDetail) {
         console.log(
           `${sniffDetails.elValue} WAS SNIFFED! Details: ${sniff.type
@@ -245,7 +269,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       let sniffStorageObj = {};
       sniffStorageObj["sniffs_" + tabId] = sniffs[msgTabId];
       chrome.storage.local.set(sniffStorageObj);
-
+      setBadge(msgTabId);
       chrome.runtime.sendMessage({
         type: "BGToPopupSniff",
       });
@@ -344,4 +368,7 @@ chrome.runtime.onInstalled.addListener(function (details) {
   chrome.storage.local.set({ ['extension_switch']: true }, function () {
     console.log('Extension switch initialized!');
   });
+  if (typeof(chrome.browserAction.setBadgeBackgroundColor)!=="function") {
+    chrome.browserAction.setBadgeBackgroundColor=new Function(); // create "NOOP" polyfill
+  }
 });
