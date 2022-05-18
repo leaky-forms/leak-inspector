@@ -259,7 +259,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             type: sniff.type,
           };
         }
-        const previouslySniffedDetails=sniffs[msgTabId][sniff.domain]["details"].find(d => d.inputField.fieldName===sniffDetails.fieldName && d.inputField.xpath===sniffDetails.xpath);
+        const previouslySniffedDetails = sniffs[msgTabId][sniff.domain]["details"].find(d => d.inputField.fieldName===sniffDetails.fieldName && d.inputField.xpath===sniffDetails.xpath);
         // if previously sniffed, then -update- sniff details
         if (!!previouslySniffedDetails) {
           previouslySniffedDetails.inputField.value = sniffDetails.elValue
