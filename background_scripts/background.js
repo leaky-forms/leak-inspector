@@ -369,6 +369,6 @@ chrome.runtime.onInstalled.addListener(function (details) {
     console.log('Extension switch initialized!');
   });
   if (typeof(chrome.browserAction.setBadgeBackgroundColor)!=="function") {
-    chrome.browserAction.setBadgeBackgroundColor=new Function(); // create "NOOP" polyfill
+    chrome.browserAction.setBadgeBackgroundColor=function(){}; // create "NOOP" polyfill
   }
 });
