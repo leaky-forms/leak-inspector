@@ -81,12 +81,9 @@ function checkSniff(elValue, xpath, fieldName, stack, tabURL) {
       };
       trackersList.push(trackerRes);
     }
-    const allThirdParty = [...trackersList].every(
-      (host) =>
-        host['type'] === 'Third Party'
-    );
-    if (!window.snifferControl && allThirdParty) {
-      return undefined;
+    if (!window.thirdPartyControl) {
+      return [...trackersList].filter((host) =>
+      host['type'] === 'Tracker Script');
     }
     return trackersList;
   } catch (e) {
@@ -124,6 +121,7 @@ function setBadge(currTabId) {
         }
         if (sniffNum > 0) {
           badgeBackgroundColor = [255,255,0,255]; // yellow
+          badgeText = sniffNum.toString();
         }
       }
     }
@@ -187,8 +185,8 @@ function afterReloadAndNewTab(tabId) {
 
   sniffs[tabId] = {};
 
-  chrome.storage.local.get("snifferControl", items => {
-    window.snifferControl = items["snifferControl"];
+  chrome.storage.local.get("thirdPartyControl", items => {
+    window.thirdPartyControl = items["thirdPartyControl"];
   });
   chrome.storage.local.get("requestControl", items => {
     window.requestControl = items["requestControl"];
@@ -314,6 +312,12 @@ chrome.webRequest.onBeforeRequest.addListener(
       }
       const tdsResult = tds.getTrackerData(reqUrl, tabURL, request.type);
 
+      if(!window.thirdPartyControl && !tdsResult){
+        return {
+          cancel: false,
+        };
+      }
+
       reqCancel = checkRequest(
         request,
         inputElsOnTab,
@@ -362,7 +366,7 @@ chrome.runtime.onInstalled.addListener(function (details) {
   chrome.storage.local.set({ ['requestControl']: true }, function () {
     console.log('Req control initialized!');
   });
-  chrome.storage.local.set({ ['snifferControl']: true }, function () {
+  chrome.storage.local.set({ ['thirdPartyControl']: true }, function () {
     console.log('Sniffer control initialized!');
   });
   chrome.storage.local.set({ ['extension_switch']: true }, function () {
