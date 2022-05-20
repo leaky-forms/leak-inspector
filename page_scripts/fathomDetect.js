@@ -1,5 +1,4 @@
-
-
+// Taken from https://github.com/mozilla/fx-private-relay-add-on/blob/7cd213357cada494c25fcc5068bd31647af7c910/src/js/other-websites/fathom.js
 /* eslint-disable  */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
@@ -2840,6 +2839,7 @@
         }
     }
 
+    // Taken from https://raw.githubusercontent.com/mozilla/fathom/c11a0e4b670e238112fc2a4c743864ab3c4a8667/docs/zoo/login.rst
     /**
   * Rulesets to train.
   *

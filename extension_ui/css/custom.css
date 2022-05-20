@@ -1,0 +1,86 @@
+.leaked-fields {
+    font-size: 12px !important;
+    color: #888888 !important;
+    letter-spacing: 0.1em !important;
+    font-weight: bold !important;
+    height: 20px !important;
+}
+
+.rating-hero-container .hero__icon {
+    width: 99px !important;
+    height: 99px !important;
+    border-radius: 50px !important;
+}
+
+.control-buttons-disable {
+    pointer-events: none !important;
+    cursor: not-allowed !important;
+    opacity: 0.65 !important;
+    filter: alpha(opacity=65) !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+.switch-active {
+    background-color: #3fa248 !important;
+}
+
+.rating-hero-container .hero__icon:hover {
+    cursor: pointer !important;
+    background: #bababa !important;
+    background-image: url("chrome-extension://__MSG_@@extension_id__/img/shut_down.svg") !important;
+}
+
+#popup-container .site-info .site-info__li--trackers {
+    position: relative !important;
+    padding-left: 45px !important;
+    cursor: pointer !important;
+}
+
+.hero {
+    padding: 15px;
+    text-align: center !important;
+    position: relative !important;
+    cursor: pointer !important;
+    border-bottom: 0 !important;
+}
+
+.tracker-networks .tracker-networks__explainer {
+    padding: 10px 24px 20px !important;
+}
+
+.tracker-networks h1.site-info__domain {
+    font-size: 16px !important;
+    font-weight: bold !important;
+    line-height: 1.38 !important;
+    letter-spacing: -0.2px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    padding-right: 12px !important;
+}
+
+.is-browser--chrome .rating-hero-container .hero__icon--a--active {
+    background-image: url("chrome-extension://__MSG_@@extension_id__/img/shut_down.svg");
+}
+
+.is-browser--moz .rating-hero-container .hero__icon--a--active {
+    background-image: url("moz-extension://__MSG_@@extension_id__/img/shut_down.svg");
+}
+
+.is-browser--chrome .rating-hero-container .hero__icon--d--active {
+    background-image: url("chrome-extension://__MSG_@@extension_id__/img/shut_down.svg");
+}
+
+.is-browser--moz .rating-hero-container .hero__icon--d--active {
+    background-image: url("moz-extension://__MSG_@@extension_id__/img/shut_down.svg");
+}
+
+.tracker-networks h1.site-info__domain {
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1.38;
+    letter-spacing: -0.2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 12px;
+}

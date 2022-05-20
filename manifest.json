@@ -43,7 +43,17 @@
       "common_utils/common_utils.js",
       "common_utils/psl.js",
       "background_scripts/background_utils.js",
-      "background_scripts/hash_encode.js"
+      "background_scripts/hash_encode/base64.js",
+      "background_scripts/hash_encode/lzstring.js",
+      "background_scripts/hash_encode/md2.js",
+      "background_scripts/hash_encode/md4.js",
+      "background_scripts/hash_encode/md5.js",
+      "background_scripts/hash_encode/sha1.js",
+      "background_scripts/hash_encode/sha256.js",
+      "background_scripts/hash_encode/sha512.js",
+      "background_scripts/hash_encode/custom_map.js",
+      "background_scripts/hash_encode/sha_salted.js",
+      "background_scripts/leak_detector.js"
     ]
   },
   "web_accessible_resources": [

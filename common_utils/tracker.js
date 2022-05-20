@@ -1,5 +1,3 @@
-// Was taken from https://github.com/duckduckgo/privacy-grade/blob/master/src/classes/trackers.js
-// Removed node modules, used psl.js and extractHostFromURL method of privacyBadger (since it was same)
 (function () {
   class Trackers {
     setLists(lists) {

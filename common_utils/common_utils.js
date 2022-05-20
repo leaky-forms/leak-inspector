@@ -1,4 +1,3 @@
-
 function decodeRequestBody(data) {
   let decodedBody;
   const dataBytes = new Uint8Array(data.bytes);

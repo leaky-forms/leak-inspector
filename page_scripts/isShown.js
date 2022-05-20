@@ -1,6 +1,3 @@
-// These are the rules used in the project: 'Dark Patterns at Scale: Findings from a Crawl of 11K Shopping Websites',
-// the code was taken from 'https://github.com/aruneshmathur/dark-patterns/blob/f458f19c4814419acd691f2842d7e1123f14097c/src/crawler/common.js#L99'
-
 const blockElements = ['div', 'section', 'article', 'aside', 'nav',
   'header', 'footer', 'main', 'form', 'fieldset', 'table'
 ];
