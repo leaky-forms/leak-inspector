@@ -3,24 +3,25 @@ chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
   currentTab = tabs[0];
 });
 
-function addSliderView(htmlPath, tabType) {
-  $("#sliding-container").load(htmlPath, { key: "value" }, function () {
-    chrome.storage.local.get([tabType + "_" + currentTab.id], listEls => {
+function addSliderView(tabType) {
+  chrome.storage.local.get([tabType + "_" + currentTab.id], listEls => {
     let listElsInTab = listEls[tabType + "_" + currentTab.id];
     renderURL(extractHostFromURL(currentTab.url));
     renderList(listElsInTab, tabType);
     document
+      .getElementById(`${tabType}-card`)
+      .classList.add("sliding-card--open");
+    document
       .getElementById("popup-container")
       .classList.add("sliding-subview--open");
     document
-      .getElementById("js-hero-close")
-      .addEventListener("click", removeSliderView, false);
-  });
+      .getElementById(`${tabType}-js-hero-close`)
+      .addEventListener("click", function() {removeSliderView(tabType);}, false);
   });
 }
 
 function renderList(listElements, tabType) {
-  let detailsDiv = document.getElementById("domain-list");
+  let detailsDiv = document.getElementById(`${tabType}-domain-list`);
   const liElements = detailsDiv.getElementsByTagName('li');
   if(liElements.length){
     let first = detailsDiv.firstElementChild;
@@ -94,10 +95,13 @@ function renderList(listElements, tabType) {
     });
 }
 
-function removeSliderView() {
+function removeSliderView(tabType) {
   document
     .getElementById("popup-container")
     .classList.remove("sliding-subview--open");
+  document
+    .getElementById(`${tabType}-card`)
+    .classList.remove("sliding-card--open");
 }
 
 function renderURL(tabURL) {
@@ -238,25 +242,23 @@ function initializeStorage(storageId, buttonId) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  $("#hamburger-menu-container").load("../html/hamburger-menu.html");
-  $("#site-info-container").load("../html/site-info.html", function () {
-    renderURL(extractHostFromURL(currentTab.url));
-    initializeStorage("snifferControl", "sniffer-blocker-button");
-    initializeStorage("requestControl", "request-blocker-button");
-    document
-      .getElementById("sniffer-blocker-button")
-      .addEventListener("click", function () {
-        toggleButtonControl("snifferControl", "sniffer-blocker-button"), false;
-      });
-    document
-      .getElementById("request-blocker-button")
-      .addEventListener("click", function () {
-        toggleButtonControl("requestControl", "request-blocker-button"), false;
-      });
-    // addSliderListener("site-info", "../html/sliding-view.html", 'site_info');
+  renderURL(extractHostFromURL(currentTab.url));
+  initializeStorage("snifferControl", "sniffer-blocker-button");
+  initializeStorage("requestControl", "request-blocker-button");
+  document
+    .getElementById("sniffer-blocker-button")
+    .addEventListener("click", function () {
+      toggleButtonControl("snifferControl", "sniffer-blocker-button"), false;
+    });
+  document
+    .getElementById("request-blocker-button")
+    .addEventListener("click", function () {
+      toggleButtonControl("requestControl", "request-blocker-button"), false;
+    });
+  // addSliderListener("site-info", "../html/sliding-view.html", 'site_info');
 
-    chrome.storage.local.get("sniffs_" + currentTab.id, sniffList => {
-      let sniffs = sniffList["sniffs_" + currentTab.id];
+  chrome.storage.local.get("sniffs_" + currentTab.id, sniffList => {
+    let sniffs = sniffList["sniffs_" + currentTab.id];
     if (sniffs) {
       document.getElementById("sniffs_text").textContent = `${
         Object.keys(sniffs).length > 0
@@ -267,9 +269,9 @@ document.addEventListener("DOMContentLoaded", function () {
           : 0
       } Sniff Attempts`;
     }
-    });
+  });
 
-    chrome.storage.local.get("leaky_requests_" + currentTab.id, leakList => {
+  chrome.storage.local.get("leaky_requests_" + currentTab.id, leakList => {
     let leaks = leakList["leaky_requests_" + currentTab.id];
     if (leaks) {
       document.getElementById("leaky_req_text").textContent = `${
@@ -281,19 +283,17 @@ document.addEventListener("DOMContentLoaded", function () {
           : 0
       } Leaky Requests`;
     }
-    });
-
-    initSwitchButton();
-    addSliderListener(
-      "request-leaks-info",
-      "../html/leaky-requests.html",
-      "leaky_requests"
-    );
-    addSliderListener("sniffs-info", "../html/sniffs-details.html", "sniffs");
-    document.getElementById("switch_button").onclick = function () {
-      toggleExtensionControl();
-    };
   });
+
+  initSwitchButton();
+  addSliderListener(
+    "request-leaks-info",
+    "leaky_requests"
+  );
+  addSliderListener("sniffs-info", "sniffs");
+  document.getElementById("switch_button").onclick = function () {
+    toggleExtensionControl();
+  };
 });
 
 function initSwitchButton() {
@@ -399,8 +399,8 @@ function toggleExtensionControl() {
   });
 }
 
-function addSliderListener(elId, htmlPath, tabType) {
+function addSliderListener(elId, tabType) {
   document.getElementById(elId).addEventListener("click", () => {
-    addSliderView(htmlPath, tabType);
+    addSliderView(tabType);
   });
 }
