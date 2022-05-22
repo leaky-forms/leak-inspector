@@ -502,7 +502,7 @@ class LeakDetector {
       purl = new URL(url);
       path_parts = purl.pathname.split("/");
     } catch (error) {
-      purl = new URLPattern({
+      purl = {
         hash: "",
         hostname: "",
         password: "",
@@ -511,7 +511,7 @@ class LeakDetector {
         protocol: "",
         search: "",
         username: "",
-      });
+      };
       path_parts = url.split("/");
     }
     for (let part of path_parts) {
