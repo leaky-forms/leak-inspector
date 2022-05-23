@@ -1771,6 +1771,12 @@ body.is-disabled #popup-container .site-info .link-secondary:hover {
   padding: 14px 0 10px 0;
   text-decoration: none;
 }
+.sliding-card {
+  display:none;
+}
+.sliding-card--open {
+  display:block;
+}
 .leaked-fields {
   font-size: 12px;
   color: #888888;
