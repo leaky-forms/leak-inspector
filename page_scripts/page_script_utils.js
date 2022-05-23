@@ -97,7 +97,7 @@ function modifyInputElementSetterGetter(inputElement) {
       const fieldName = inputElement.getAttribute("leaky-field-name");
       const stack = new Error().stack.split("\n");
       stack.shift();
-      if( (stack.length>1) && stack[1].startsWith('    at HTMLInputElement.recordInput (moz-extension://')){
+      if( (stack.length>1) && (stack[1].startsWith(' at HTMLInputElement.recordInput (chrome-extension://') || stack[1].startsWith(' at HTMLInputElement.recordInput (moz-extension://'))){
         return elValue;
       }
       const timeStamp = Date.now();

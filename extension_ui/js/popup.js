@@ -169,13 +169,13 @@ function toggleButtonControl(storageId, buttonId) {
               storageId,
               value: false,
             });
-          }else if(storageId==='snifferControl'){
+          }else if(storageId==='thirdPartyControl'){
             chrome.tabs.query(
               { currentWindow: true, active: true },
               function (tabs) {
                 let activeTab = tabs[0];
                 chrome.tabs.sendMessage(activeTab.id, {
-                  message: "snifferControl",
+                  message: "thirdPartyControl",
                   value: false,
                 });
               }
@@ -197,13 +197,13 @@ function toggleButtonControl(storageId, buttonId) {
           storageId,
           value: true,
         });
-          }else if(storageId==='snifferControl'){
+          }else if(storageId==='thirdPartyControl'){
             chrome.tabs.query(
               { currentWindow: true, active: true },
               function (tabs) {
                 let activeTab = tabs[0];
                 chrome.tabs.sendMessage(activeTab.id, {
-                  message: "snifferControl",
+                  message: "thirdPartyControl",
                   value: true,
                 });
               }
@@ -242,6 +242,24 @@ function initializeStorage(storageId, buttonId) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+<<<<<<< HEAD
+  $("#hamburger-menu-container").load("../html/hamburger-menu.html");
+  $("#site-info-container").load("../html/site-info.html", function () {
+    renderURL(extractHostFromURL(currentTab.url));
+    initializeStorage("thirdPartyControl", "third-party-blocker-button");
+    initializeStorage("requestControl", "request-blocker-button");
+    document
+      .getElementById("third-party-blocker-button")
+      .addEventListener("click", function () {
+        toggleButtonControl("thirdPartyControl", "third-party-blocker-button"), false;
+      });
+    document
+      .getElementById("request-blocker-button")
+      .addEventListener("click", function () {
+        toggleButtonControl("requestControl", "request-blocker-button"), false;
+      });
+    // addSliderListener("site-info", "../html/sliding-view.html", 'site_info');
+=======
   renderURL(extractHostFromURL(currentTab.url));
   initializeStorage("snifferControl", "sniffer-blocker-button");
   initializeStorage("requestControl", "request-blocker-button");
@@ -256,6 +274,7 @@ document.addEventListener("DOMContentLoaded", function () {
       toggleButtonControl("requestControl", "request-blocker-button"), false;
     });
   // addSliderListener("site-info", "../html/sliding-view.html", 'site_info');
+>>>>>>> ae46b4d4d89b369a0c8b3478be86169e7aacc31b
 
   chrome.storage.local.get("sniffs_" + currentTab.id, sniffList => {
     let sniffs = sniffList["sniffs_" + currentTab.id];
@@ -283,6 +302,48 @@ document.addEventListener("DOMContentLoaded", function () {
           : 0
       } Leaky Requests`;
     }
+<<<<<<< HEAD
+    });
+
+    initSwitchButton();
+    addSliderListener(
+      "request-leaks-info",
+      "../html/leaky-requests.html",
+      "leaky_requests"
+    );
+    addSliderListener("sniffs-info", "../html/sniffs-details.html", "sniffs");
+    document.getElementById("switch_button").onclick = function () {
+      toggleExtensionControl();
+    };
+    // Taken from https://stackoverflow.com/a/41820692
+    // Opera 8.0+ (tested on Opera 42.0)
+    var isOpera = (!!window.opr && !!opr.addons) || !!window.opera 
+    || navigator.userAgent.indexOf(' OPR/') >= 0;
+
+    // Firefox 1.0+ (tested on Firefox 45 - 53)
+    var isFirefox = typeof InstallTrigger !== 'undefined';
+
+    // Internet Explorer 6-11
+    //   Untested on IE (of course). Here because it shows some logic for isEdge.
+    var isIE = /*@cc_on!@*/false || !!document.documentMode;
+
+    // Edge 20+ (tested on Edge 38.14393.0.0)
+    var isEdge = !isIE && !!window.StyleMedia;
+
+    // Chrome 1+ (tested on Chrome 55.0.2883.87)
+    // This does not work in an extension:
+    //var isChrome = !!window.chrome && !!window.chrome.webstore;
+    // The other browsers are trying to be more like Chrome, so picking
+    // capabilities which are in Chrome, but not in others is a moving
+    // target.  Just default to Chrome if none of the others is detected.
+    var isChrome = !isOpera && !isFirefox && !isIE && !isEdge;
+    if(isChrome){
+    document.getElementById('extension-body').classList.add('is-browser--chrome');
+    }else if(isFirefox){
+    document.getElementById('extension-body').classList.add('is-browser--moz');
+    }
+=======
+>>>>>>> ae46b4d4d89b369a0c8b3478be86169e7aacc31b
   });
 
   initSwitchButton();
@@ -316,7 +377,7 @@ function initSwitchButton() {
 
 function switchOnOff(boolValue) {
   let elementInfo = [
-    { storageId: "snifferControl", buttonId: "sniffer-blocker-button" },
+    { storageId: "thirdPartyControl", buttonId: "third-party-blocker-button" },
     { storageId: "requestControl", buttonId: "request-blocker-button" },
   ];
   for (const element of elementInfo) {
@@ -339,7 +400,7 @@ function switchOnOff(boolValue) {
           function (tabs) {
             let activeTab = tabs[0];
             chrome.tabs.sendMessage(activeTab.id, {
-              message: "snifferControl",
+              message: "thirdPartyControl",
               value: false,
             });
           }
@@ -364,7 +425,7 @@ function switchOnOff(boolValue) {
           function (tabs) {
             let activeTab = tabs[0];
             chrome.tabs.sendMessage(activeTab.id, {
-              message: "snifferControl",
+              message: "thirdPartyControl",
               value: true,
             });
           }
