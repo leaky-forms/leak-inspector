@@ -1,6 +1,13 @@
 let currentTab;
 chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
   currentTab = tabs[0];
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", function() { 
+      onDOMContentLoaded();
+    });
+  } else {
+    onDOMContentLoaded();
+  }
 });
 
 function addSliderView(tabType) {
@@ -241,7 +248,7 @@ function initializeStorage(storageId, buttonId) {
   });
 }
 
-document.addEventListener("DOMContentLoaded", function () {
+function onDOMContentLoaded() {
   renderURL(extractHostFromURL(currentTab.url));
   initializeStorage("thirdPartyControl", "sniffer-blocker-button");
   initializeStorage("requestControl", "request-blocker-button");
@@ -321,7 +328,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }else if(isFirefox){
   document.getElementById('extension-body').classList.add('is-browser--moz');
   }
-});
+}
 
 function initSwitchButton() {
   const storageId = "extension_switch";
