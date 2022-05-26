@@ -299,7 +299,7 @@ var isShown = function(element) {
         !positiveSize(n));
   }
 
-  var tagName = element.tagName ? element.tagName.toLowerCase() : undefined;
+  var tagName = element.tagName.toLowerCase();
 
   if (tagName === 'body') {
     return true;
@@ -480,6 +480,24 @@ var getElementsByXPath = function(xpath, parent, doc) {
     results.push(query.snapshotItem(i));
   }
   return results;
+};
+
+var getXPathTo = function(element) {
+  if (element.tagName == 'HTML')
+    return '/HTML[1]';
+  if (element === document.body)
+    return '/HTML[1]/BODY[1]';
+
+  var ix = 0;
+  var siblings = element.parentNode.childNodes;
+  for (var i = 0; i < siblings.length; i++) {
+    var sibling = siblings[i];
+    if (sibling === element)
+      return getXPathTo(element.parentNode) + '/' + element.tagName + '[' + (
+        ix + 1) + ']';
+    if (sibling.nodeType === 1 && sibling.tagName === element.tagName)
+      ix++;
+  }
 };
 
 var getChildren = function(n, skipMe) {

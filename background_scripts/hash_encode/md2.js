@@ -1,4 +1,24 @@
-var HEX_CHARS = '0123456789abcdef'.split('');
+/**
+ * [js-md2]{@link https://github.com/emn178/js-md2}
+ *
+ * @namespace md2
+ * @version 0.2.2
+ * @author Chen, Yi-Cyuan [emn178@gmail.com]
+ * @copyright Chen, Yi-Cyuan 2014-2017
+ * @license MIT
+ */
+/*jslint bitwise: true */
+(function () {
+  'use strict';
+
+  var root = typeof window === 'object' ? window : {};
+  var NODE_JS = !root.JS_MD2_NO_NODE_JS && typeof process === 'object' && process.versions && process.versions.node;
+  if (NODE_JS) {
+    root = global;
+  }
+  var COMMON_JS = !root.JS_MD2_NO_COMMON_JS && typeof module === 'object' && module.exports;
+  var AMD = typeof define === 'function' && define.amd;
+  var HEX_CHARS = '0123456789abcdef'.split('');
 
   var S = [
     0x29, 0x2E, 0x43, 0xC9, 0xA2, 0xD8, 0x7C, 0x01, 0x3D, 0x36, 0x54, 0xA1, 0xEC, 0xF0, 0x06, 0x13,
@@ -125,3 +145,15 @@ var HEX_CHARS = '0123456789abcdef'.split('');
     }
     return hex;
   };
+  
+  if (COMMON_JS) {
+    module.exports = md2;
+  } else {
+    root.md2 = md2;
+    if (AMD) {
+      define(function() {
+        return md2;
+      });
+    }
+  }
+})();

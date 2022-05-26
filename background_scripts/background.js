@@ -120,8 +120,8 @@ function setBadge(currTabId) {
           }
         }
         if (sniffNum > 0) {
-          badgeBackgroundColor = [255,255,0,255]; // yellow
           badgeText = sniffNum.toString();
+          badgeBackgroundColor = [255,255,0,255]; // yellow
         }
       }
     }
@@ -239,6 +239,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       if (sniffs[msgTabId] === undefined) {
         sniffs[msgTabId] = [];
       }
+      let sniffsInserted = false;
       for (const sniff of sniffDetail) {
         console.log(
           `${sniffDetails.elValue} WAS SNIFFED! Details: ${sniff.type
@@ -255,19 +256,29 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             type: sniff.type,
           };
         }
-        sniffs[msgTabId][sniff.domain]["details"].push({
-          inputField: {
-            fieldName: sniffDetails.fieldName,
-            value: sniffDetails.elValue,
-            xpath: sniffDetails.xpath,
-          },
-          timeStamp: sniffDetails.timeStamp,
-        });
+        const previouslySniffedDetails = sniffs[msgTabId][sniff.domain]["details"].find(d => d.inputField.fieldName===sniffDetails.fieldName && d.inputField.xpath===sniffDetails.xpath);
+        // if previously sniffed, then -update- sniff details
+        if (!!previouslySniffedDetails) {
+          previouslySniffedDetails.inputField.value = sniffDetails.elValue
+          previouslySniffedDetails.timeStamp = sniffDetails.timeStamp
+        } else { // -insert- sniff details
+          sniffsInserted = true;
+          sniffs[msgTabId][sniff.domain]["details"].push({
+            inputField: {
+              fieldName: sniffDetails.fieldName,
+              value: sniffDetails.elValue,
+              xpath: sniffDetails.xpath,
+            },
+            timeStamp: sniffDetails.timeStamp,
+          });
+        }
       }
       let sniffStorageObj = {};
       sniffStorageObj["sniffs_" + tabId] = sniffs[msgTabId];
       chrome.storage.local.set(sniffStorageObj);
-      setBadge(msgTabId);
+      if (sniffsInserted) {
+        setBadge(msgTabId);
+      }
       chrome.runtime.sendMessage({
         type: "BGToPopupSniff",
       });
@@ -311,13 +322,11 @@ chrome.webRequest.onBeforeRequest.addListener(
         };
       }
       const tdsResult = tds.getTrackerData(reqUrl, tabURL, request.type);
-
       if(!window.thirdPartyControl && !tdsResult){
         return {
           cancel: false,
         };
       }
-
       reqCancel = checkRequest(
         request,
         inputElsOnTab,

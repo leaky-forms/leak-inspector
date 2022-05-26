@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -12,11 +13,141 @@
 <body class="body--neutral" id="extension-body">
     <div id="popup-container" class="sliding-subview sliding-subview--root sliding-subview--has-fixed-header">
         <div class="site-info site-info--placeholder card"></div>
-        <section id="hamburger-menu-container"></section>
-        <section id="site-info-container"></section>
-        <section id="sliding-container" class="sliding-subview grade-scorecard sliding-subview--has-fixed-header"></section>
+        <section id="hamburger-menu-container">
+            <nav class="hamburger-menu js-hamburger-menu is-hidden">
+                <div class="hamburger-menu__bg"></div>
+                <div class="hamburger-menu__content card padded">
+                    <h2 class="menu-title border--bottom hamburger-menu__content__more-options">
+                        More options
+                    </h2>
+                    <nav class="pull-right hamburger-menu__close-container">
+                        <a href="javascript:void(0)" class="icon icon__close js-hamburger-menu-close" role="button"
+                            aria-label="Close options"></a>
+                    </nav>
+                    <ul class="hamburger-menu__links padded default-list">
+                        <li>
+                            <a href="javascript:void(0)" class="menu-title js-hamburger-menu-options-link">
+                                Settings
+                                <span>Manage Unprotected Sites and other options.</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" class="menu-title js-hamburger-menu-feedback-link">
+                                Share feedback
+                                <span>Got issues or suggestions? Let us know!</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" class="menu-title js-hamburger-menu-broken-site-link">
+                                Report broken site
+                                <span>If a site's not working, please tell us.</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </section>
+        <section id="site-info-container">
+            <div class="site-info site-info--main">
+                <ul class="default-list">
+                    <li id="site-info" class="border--bottom site-info__rating-li main-rating js-hero-open" title="Enable/Disable add-on. To finalize your selection, please reload the page.">
+                        <div class="rating-hero-container js-rating-hero">
+                            <div class="hero text--center ">
+                                <div class="hero__icon hero__icon--d--active" id="switch_button"></div>
+                                <h1 class="hero__title">google.com</h1>
+                                <h2 hidden aria-label="Leak Details" class="hero__subtitle " id="sniff_num"></h2>
+                                <h2 hidden aria-label="Leak Details" class="hero__subtitle " id="leaky_req_num"></h2>
+                            </div>
+                        </div>
+                    </li>
+                    <div id="control-buttons">
+                        <li  id="request-leaks-info" class="js-site-tracker-networks js-site-show-page-trackers site-info__li--trackers padded border--bottom" title="List requests containing personal information">
+                            <a  role="button" class="link-secondary bold"> <a 
+                                    class="site-info__trackers link-secondary bold"> <span id='leaky_req_text' class="is-active text-line-after-icon"> Leaky Requests</span>
+                                    <span class="icon icon__arrow pull-right"></span></a></a>
+                        </li>
+                        <li id="sniffs-info"  class="js-site-tracker-networks js-site-show-page-trackers site-info__li--trackers padded border--bottom" title="List 3rd-parties reading personal information">
+                            <a  role="button" class="link-secondary bold"> <a 
+                                    class="site-info__trackers link-secondary bold"> <span class="is-active text-line-after-icon" id='sniffs_text'> Sniff Attempts</span>
+                                    <span class="icon icon__arrow pull-right"></span></a></a>
+                        </li>
+                        <li class="site-info__li--toggle js-site-protection-row padded is-active" title="Disable blocking leaky requests. You continue to see the list of requests even if you disable this feature.">
+                            <p class="site-info__protection js-site-protection bold">Request Blocker</p>
+                            <div class="site-info__toggle-container"><button id='request-blocker-button' data-key="" type="button" aria-pressed="true"
+                                    class="toggle-button toggle-button--is-active-true js-site-toggle pull-right">
+                                    <div class="toggle-button__bg"></div>
+                                    <div class="toggle-button__knob"></div>
+                                </button></div>
+                        </li>
+                        <li class="site-info__li--toggle js-site-protection-row padded is-active" title="Control sniffs and leak attempts not only to tracker domains but also 3rd-parties ">
+                            <p class="site-info__protection js-site-protection bold">Enable for all 3rd parties</p>
+                            <div class="site-info__toggle-container"><button id='sniffer-blocker-button' data-key="" type="button" aria-pressed="true"
+                                    class="toggle-button toggle-button--is-active-true js-site-toggle pull-right">
+                                    <div class="toggle-button__bg"></div>
+                                    <div class="toggle-button__knob"></div>
+                                </button></div>
+                        </li>
+                    </div>
+                    <!-- <li class="js-site-manage-allowlist-li site-info__li--manage-allowlist padded ">
+                        <div><a 
+                                class="js-site-manage-allowlist site-info__manage-allowlist link-secondary bold">Unprotected
+                                Sites</a>
+                            <div class="separator"></div><a 
+                                class="js-site-report-broken site-info__report-broken link-secondary bold">Report broken
+                                site</a>
+                        </div>
+                    </li> -->
+                    
+                    <!-- <li class="js-site-confirm-breakage-li site-info__li--confirm-breakage border--bottom padded is-hidden">
+                        <div class="js-site-confirm-breakage-message site-info__confirm-thanks is-transparent"><span
+                                class="site-info__message">Thanks for the feedback!</span></div>
+                        <div class="js-site-confirm-breakage site-info--confirm-breakage"><span
+                                class="site-info--is-site-broken bold">Is this website broken?</span>
+                            <btn class="js-site-confirm-breakage-yes site-info__confirm-breakage-yes btn-pill">Yes</btn>
+                            <btn class="js-site-confirm-breakage-no site-info__confirm-breakage-no btn-pill">No</btn>
+                        </div>
+                    </li> -->
+                </ul>
+            </div>
+        </section>
+        <section id="sliding-container" class="sliding-subview grade-scorecard sliding-subview--has-fixed-header">
+            <section class="sliding-card" id="leaky_requests-card">
+                <div class="site-info site-info--full-height card" id="leak-details">
+                    <div class="rating-hero-container js-rating-hero" id="leaky_requests-js-hero-close">
+                        <div class="hero text--center js-sliding-subview-close">
+                            <h1 class="hero__title"></h1>
+                            <h2 aria-label="Sniffs" class="hero__subtitle ">Leaky Requests</h2><a href="" role="button" aria-label="Go back"
+                                class="hero__close"> <span class="icon icon__arrow icon__arrow--large icon__arrow--left"></span></a>
+                        </div>
+                    </div>
+                    <div class="tracker-networks__explainer border--bottom--inner
+                        text--center"> Requests exfiltrating personal data extracted from web forms </div>
+                    <div class="tracker-networks__details padded
+                        js-tracker-networks-details">
+                        <ol id="leaky_requests-domain-list" aria-label="List of tracker networks" class="default-list site-info__trackers__company-list">
+                        </ol>
+                    </div>
+                </div>
+            </section>
+            <section class="sliding-card" id="sniffs-card">
+                <div class="site-info site-info--full-height card" id="sniff-details">
+                    <div class="rating-hero-container js-rating-hero" id="sniffs-js-hero-close">
+                        <div class="hero text--center js-sliding-subview-close">
+                            <h1 class="hero__title"></h1>
+                            <h2 aria-label="Sniffs" class="hero__subtitle ">Sniff attempts</h2><a href="" role="button" aria-label="Go back"
+                                class="hero__close"> <span class="icon icon__arrow icon__arrow--large icon__arrow--left"></span></a>
+                        </div>
+                    </div>
+                    <div class="tracker-networks__explainer border--bottom--inner text--center"> Details of sniff attempts of third parties. </div>
+                    <div class="tracker-networks__details padded
+                        js-tracker-networks-details">
+                        <ol id="sniffs-domain-list" aria-label="List of tracker networks" class="default-list site-info__trackers__company-list">
+                        </ol>
+                    </div>
+                </div>
+            </section>
+        </section>
     </div>
-    <script src="../js/base.js" type="text/javascript"></script>
     <script src="../js/popup.js" type="text/javascript"></script>
     <script src="../../common_utils/common_utils.js" type="text/javascript"></script>
 </body>

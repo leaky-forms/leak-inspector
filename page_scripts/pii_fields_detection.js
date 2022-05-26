@@ -103,7 +103,7 @@ function getPasswordFields() {
 function getEmailsByFathom() {
   let emailsByFathom = [];
   try {
-    emailsByFathom = [...fathom.detectEmailInputs(document)];
+    emailsByFathom = [...detectEmailInputs(document)];
   } catch (error) {
     // console.log(`Error occured while finding password elements: `, error.message);
   }

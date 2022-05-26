@@ -1,5 +1,3 @@
-// Leak Detector: based on https://github.com/citp/ott-tracking/blob/release/src/analysis/notebooks/LeakDetector.py
-// Some encoding and hashing methods are removed and added sha_salted_1, lzstring and custom_map_1
 DELIMITERS = new RegExp("[&|\\,]|%3D|%26");
 EXTENSION_RE = new RegExp("\\\\.[A-Za-z]{2,4}$");
 ENCODING_LAYERS = 3;
@@ -52,11 +50,11 @@ class Hasher {
   init = function () {
     var hashes = {};
     hashes["md2"] = md2;
-    hashes["md4"] = hex_md4;
-    hashes["md5"] = MD5;
-    hashes["sha1"] = Sha1.hash;
-    hashes["sha256"] = Sha256.hash;
-    hashes["sha512"] = Sha512.hash;
+    hashes["md4"] = md4;
+    hashes["md5"] = md5;
+    hashes["sha1"] = sha1;
+    hashes["sha256"] = sha256;
+    hashes["sha512"] = sha512;
     hashes["sha_salted_1"] = sha_salted_1;
     return hashes;
   };
@@ -73,7 +71,7 @@ class Encoder {
   }
   init = function () {
     var encodings = {};
-    encodings["base64"] = Base64.encode;
+    encodings["base64"] = base64.encode;
     encodings["urlencode"] = encodeURIComponent;
     encodings["lzstring"] = LZString.compressToEncodedURIComponent;
     encodings["custom_map_1"] = custom_map_enc;
@@ -91,7 +89,7 @@ class Decoder {
   }
   init = function () {
     var encodings = {};
-    encodings["base64"] = Base64.decode;
+    encodings["base64"] = base64.decode;
     encodings["urlencode"] = decodeURIComponent;
     encodings["lzstring"] = LZString.decompressFromEncodedURIComponent;
     encodings["custom_map_1"] = custom_map_dec;

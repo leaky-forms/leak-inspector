@@ -1,7 +1,12 @@
 let pathPassed = false;
 const scriptNames = [
-  "page_scripts/autofill_detect.js",
-  "page_scripts/fathomDetect.js",
+  "page_scripts/fathom/fathom.js",
+  "page_scripts/fathom/email_detector.js",
+  "page_scripts/autofill/heuristicsRegexp.js",
+  "page_scripts/autofill/FormAutofill.js",
+  "page_scripts/autofill/CreditCard.js",
+  "page_scripts/autofill/FormAutofillUtils.js",
+  "page_scripts/autofill/FormAutofillHeuristics.js",
   "page_scripts/isShown.js",
   "page_scripts/pii_fields_detection.js",
   "page_scripts/page_script_utils.js",
