@@ -1,26 +1,45 @@
 let pathPassed = false;
 const scriptNames = [
-  "page_scripts/fathom/fathom.js",
-  "page_scripts/fathom/email_detector.js",
-  "page_scripts/autofill/heuristicsRegexp.js",
-  "page_scripts/autofill/FormAutofill.js",
-  "page_scripts/autofill/CreditCard.js",
-  "page_scripts/autofill/FormAutofillUtils.js",
-  "page_scripts/autofill/FormAutofillHeuristics.js",
-  "page_scripts/isShown.js",
-  "page_scripts/pii_fields_detection.js",
-  "page_scripts/page_script_utils.js",
-  "page_scripts/page_script.js",
+  "page_scripts/page_script.js"
 ];
 
-  chrome.storage.local.get(["extension_switch"], function (items) {
-    if(items['extension_switch']){
-      for (const script of scriptNames) {
-        let scriptPath = chrome.runtime.getURL(script);
-        injectPageScript(scriptPath);
-      }
+
+// Was taken from https://gist.github.com/iimos/e9e96f036a3c174d0bf4
+function getXPath(el) {
+  try {
+    if (typeof el === "string") {
+      return document.evaluate(el, document, null, 0, null);
     }
-  });
+    if (!el || el.nodeType != 1) {
+      return "";
+    }
+    if (el.id) {
+      return `//*[@id='${el.id}']`;
+    }
+    const elTagName = el.tagName;
+    const sames = Array.from(el.parentNode.children).filter(
+      (x) => x.tagName == elTagName
+    );
+    return (
+      this.getXPath(el.parentElement) +
+      "/" +
+      elTagName.toLowerCase() +
+      (sames.length > 1 ? `[${sames.indexOf(el) + 1}]` : "")
+    );
+  } catch (error) {
+    console.log("Exception occured while getting xpath of element.", el);
+    return "";
+  }
+}
+
+chrome.storage.local.get(["extension_switch"], function (items) {
+  if(items['extension_switch']){
+    for (const script of scriptNames) {
+      let scriptPath = chrome.runtime.getURL(script);
+      injectPageScript(scriptPath);
+    }
+  }
+});
 
 let tabId;
 function injectPageScript(scriptPath) {
@@ -50,13 +69,6 @@ document.addEventListener("inputSniffed", function (e) {
   // );
 });
 
-document.addEventListener("inputFieldChanged", function (e) {
-  let data = e.detail;
-  chrome.runtime.sendMessage({
-    type: "inputFieldChanged",
-    data,
-  });
-});
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
    if (request.message === 'reqLeakOccurred') {
@@ -74,3 +86,92 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     });
   }
 });
+
+function addEventHandlerToEl(inputEl, eventType, eventHandler) {
+  inputEl.addEventListener(eventType, eventHandler);
+}
+
+function recordInput(event) {
+  let inputFields = [];
+  let url = document.location.href;
+  let PIIFields = document.querySelectorAll("[leaky-field-name]");
+  for (const inputField of PIIFields) {
+    let value = inputField.value;
+    if (value.length < 5) {
+      continue;
+    }
+    let xpath = getXPath(inputField);
+    let fieldName = inputField.getAttribute("leaky-field-name");
+    inputFields.push({ value, fieldName, xpath });
+  }
+  if (inputFields.length) {
+    chrome.runtime.sendMessage({
+      type: "inputFieldChanged",
+      data: { url, inputFields },
+    });
+  }
+}
+
+function addSniffListener2ExistingElements() {
+  let shownInputFields = getAllPIIFields(true);
+  for (const inputEl of shownInputFields) {
+    let xpath = getXPath(inputEl.element);
+    inputEl.element.setAttribute("leaky-field-name", inputEl.fieldName);
+    document.dispatchEvent(
+      new CustomEvent('modifyInputElementSetterGetter', { detail: xpath })
+    );
+    addEventHandlerToEl(inputEl.element, "input", recordInput);
+  }
+}
+
+// add reference
+function debounce(func, wait, immediate) {
+  let timeout;
+  return function () {
+    let context = this,
+      args = arguments;
+    let later = function () {
+      timeout = null;
+      if (!immediate) {
+        func.apply(context, args);
+      }
+    };
+    let callNow = immediate && !timeout;
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait || 1000);
+    if (callNow) {
+      func.apply(context, args);
+    }
+  };
+}
+
+function monitorPiiElements() {
+  // console.log('*****Debounced ****');
+  let shownInputFields = getAllPIIFields(true);
+  for (const inputEl of shownInputFields) {
+    let xpath = getXPath(inputEl.element);
+    inputEl.element.setAttribute("leaky-field-name", inputEl.fieldName);
+    document.dispatchEvent(
+      new CustomEvent('modifyInputElementSetterGetter', { detail: xpath })
+    );
+    addEventHandlerToEl(inputEl.element, "input", recordInput);
+  }
+}
+
+function addSniffListener2DynamicallyAddedElements() {
+  // based on https://stackoverflow.com/questions/54017611
+  debouncedMonitorPiiEls = debounce(monitorPiiElements, 500);
+  let observer = new MutationObserver(function (mutations) {
+    mutations.forEach(function (mutation) {
+      for (let i = 0; i < mutation.addedNodes.length; i++) {
+        // monitor the newly added input elements
+        debouncedMonitorPiiEls();
+      }
+    });
+  });
+  // start the Mutation Observer
+  observer.observe(document, { childList: true, subtree: true });
+}
+
+addSniffListener2DynamicallyAddedElements();
+addSniffListener2ExistingElements();

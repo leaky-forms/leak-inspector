@@ -23,6 +23,15 @@
   "content_scripts": [
     {
       "js": [
+        "content_scripts/fathom/fathom.js",
+        "content_scripts/fathom/email_detector.js",
+        "content_scripts/autofill/heuristicsRegexp.js",
+        "content_scripts/autofill/FormAutofill.js",
+        "content_scripts/autofill/CreditCard.js",
+        "content_scripts/autofill/FormAutofillUtils.js",
+        "content_scripts/autofill/FormAutofillHeuristics.js",
+        "content_scripts/isShown.js",
+        "content_scripts/pii_fields_detection.js",
         "content_scripts/content_script.js"
       ],
       "matches": [
