@@ -51,17 +51,17 @@
       "data/public_suffix.js",
       "background_scripts/tracker/psl.js",
       "background_scripts/background_utils.js",
-      "background_scripts/hash_encode/base64.js",
-      "background_scripts/hash_encode/lzstring.js",
-      "background_scripts/hash_encode/md2.js",
-      "background_scripts/hash_encode/md4.js",
-      "background_scripts/hash_encode/md5.js",
-      "background_scripts/hash_encode/sha1.js",
-      "background_scripts/hash_encode/sha256.js",
-      "background_scripts/hash_encode/sha512.js",
-      "background_scripts/hash_encode/custom_map.js",
-      "background_scripts/hash_encode/sha_salted.js",
-      "background_scripts/leak_detector.js"
+      "background_scripts/leak_detector/base64.js",
+      "background_scripts/leak_detector/lzstring.js",
+      "background_scripts/leak_detector/md2.js",
+      "background_scripts/leak_detector/md4.js",
+      "background_scripts/leak_detector/md5.js",
+      "background_scripts/leak_detector/sha1.js",
+      "background_scripts/leak_detector/sha256.js",
+      "background_scripts/leak_detector/sha512.js",
+      "background_scripts/leak_detector/custom_map.js",
+      "background_scripts/leak_detector/sha_salted.js",
+      "background_scripts/leak_detector/leak_detector.js"
     ]
   },
   "web_accessible_resources": [
