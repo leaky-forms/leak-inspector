@@ -44,13 +44,12 @@
   "background": {
     "persistent": true,
     "scripts": [
-      "common_utils/tracker.js",
+      "background_scripts/tracker/tracker.js",
       "data/ddg_tds.js",
       "background_scripts/background.js",
       "data/entities.js",
       "data/public_suffix.js",
-      "common_utils/common_utils.js",
-      "common_utils/psl.js",
+      "background_scripts/tracker/psl.js",
       "background_scripts/background_utils.js",
       "background_scripts/hash_encode/base64.js",
       "background_scripts/hash_encode/lzstring.js",
@@ -71,8 +70,7 @@
     "data/*",
     "icons/*",
     "extension_ui/*",
-    "common_utils/common_utils.js",
-    "common_utils/psl.js",
-    "common_utils/tracker.js"
+    "background_scripts/tracker/psl.js",
+    "background_scripts/tracker/tracker.js"
   ]
 }
