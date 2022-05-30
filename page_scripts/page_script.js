@@ -15,7 +15,7 @@ document.addEventListener("modifyInputElementSetterGetter", function (e) {
   Object.defineProperty(inputElement, "value", {
     enumerable: true,
     configurable: true,
-    // set: realHTMLInputElement.set,
+    set: realHTMLInputElement.set,
     get: function () {
       const elValue = realHTMLInputElement.get.call(this);
       const xpath = getXPath(inputElement);
