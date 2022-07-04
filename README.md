@@ -7,7 +7,7 @@ It has the following features:
  2. Logs technical details of the detected sniff and leak attempts to console to enable technical audits. The logged information includes the value and XPath of the sniffed input element, the origin of the sniffer script, and details of the leaky request such as the URL and the POST data.
  3. A user interface where recent sniff and leak attempts are listed, along with the tracker domain, company and tracker category. The user interface module is based on code taken from [DuckDuckGo’s Privacy Essentials add-on](https://chrome.google.com/webstore/detail/duckduckgo-privacy-essent/bkdgflcldnnnapblkhphbgpggdiikppg?hl=en).
  
-Our attempts to publish the add-on on the Chrome Web Store failed, because new uploads of Manifest v2 add-ons are not accepted. For leak detection, our add-on requires access to network request details, which will be disallowed in Manifest v3. We are working on publishing the add-on for Firefox.
+Our attempts to publish the add-on on the Chrome Web Store failed, because new uploads of Manifest v2 add-ons are not accepted. For leak detection, our add-on requires access to network request details, which will be disallowed in Manifest v3. ~~We are working on publishing the add-on for Firefox.~~ Our attempts to publish the add-on for Firefox [have failed](https://github.com/leaky-forms/leak-inspector/issues/13).
 
 ⚠️ The add-on is a proof-of-concept. It has not been extensively tested. Please use at your own discretion.
 
