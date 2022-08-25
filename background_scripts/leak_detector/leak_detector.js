@@ -335,15 +335,7 @@ class LeakDetector {
   check_if_in_precompute_pool(string) {
     // Returns a tuple that lists the (possibly layered) hashes or
     // encodings that result in input string
-    try {
-      return this._precompute_pool[string.toString()];
-    } catch (error) {
-      try {
-        return this._precompute_pool[string.decode()];
-      } catch (error) {
-        return;
-      }
-    }
+    return this._precompute_pool[string.toString()];
   }
   check_for_leak = function (
     string,
