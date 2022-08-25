@@ -563,81 +563,12 @@ class LeakDetector {
     }
     return "";
   }
-  _split_cookie(cookie_str) {
-    // Returns all parsed parts of the cookie names and values"""
-    let tokens = new Set();
-    let parameters = new Set();
-    try {
-      cookies = ck.SimpleCookie();
-      cookies.load(cookie_str);
-    } catch (error) {
-      return tokens, parameters; //# return empty sets
-    }
-
-    for (cookie in cookies.values()) {
-      this._split_on_delims(cookie.key, tokens, parameters);
-      this._split_on_delims(cookie.value, tokens, parameters);
-    }
-    return tokens, parameters;
-  }
   get_location_str = function (header_str) {
     return this._get_header_str(header_str, "Location");
   };
   get_referrer_str = function () {
     return this._get_header_str(header_str, "Referer");
   };
-  get_cookie_str = function (header_str, from_request = true) {
-    if (!header_str) {
-      return "";
-    }
-    if (from_request) {
-      header_name = "Cookie";
-    } else {
-      header_name = "Set-Cookie";
-    }
-
-    return this._get_header_str(header_str, header_name);
-  };
-  check_cookies(
-    header_str,
-    encoding_layers = 3,
-    from_request = true,
-    substring_search = true
-  ) {
-    // Check the cookies portion of the header string for leaks"""
-    let cookie_str = this.get_cookie_str(header_str, from_request);
-    if (!cookie_str) {
-      return [];
-    }
-    tokens,
-      (parameters = this._split_cookie(
-        header_str,
-        (from_request = from_request)
-      ));
-    this._checked = [];
-    return this._check_whole_and_parts_for_leaks(
-      cookie_str,
-      tokens,
-      parameters,
-      encoding_layers,
-      substring_search
-    );
-  }
-  check_cookie_str(cookie_str, encoding_layers = 3, substring_search = true) {
-    // Check the cookie (either request or response) string for leaks"""
-    if (!cookie_str) {
-      return [];
-    }
-    tokens, (parameters = this._split_cookie(cookie_str));
-    this._checked = [];
-    return this._check_whole_and_parts_for_leaks(
-      cookie_str,
-      tokens,
-      parameters,
-      encoding_layers,
-      substring_search
-    );
-  }
   check_location_header(
     location_str,
     encoding_layers = 3,
