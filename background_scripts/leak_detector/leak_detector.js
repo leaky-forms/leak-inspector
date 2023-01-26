@@ -175,7 +175,7 @@ class LeakDetector {
   _compute_hashes(string, layers, prev_hashes) {
     // Returns all iterative hashes of `string` up to the
     // specified number of `layers`"""
-    for (let h of this._hasher.supported_hashes) {
+    for (let h of this._hash_set) {
       let hashed_string = this._hasher.get_hash(h, string);
       if (hashed_string === string) {
         continue;
